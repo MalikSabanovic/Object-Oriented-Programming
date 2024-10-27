@@ -452,10 +452,426 @@ import java.sql.ResultSet;
 }*/
 
 
+//--------------------------------------------------------Lab 4 Task Solutions--------------------------------------------------------
 
 
+//Task 1
+
+/*package org.example;
+import java.util.ArrayList;
+import java.util.List;
+
+    class Person {
+    private String name;
+    private String address;
+
+    public Person(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    public String getName() {
+        return this.name;
+    }
 
 
+    public String getAddress() {
+        return this.address;
+    }
+
+    @Override
+    public String toString() {
+        return name + "\n" + address;
+    }
+}
+    class Student extends Person {
+        private int credit;
+
+        public Student(String name,String address){
+            super(name,address);
+            this.credit = 0;
+        }
+        public int getCredit() {
+            return this.credit;
+        }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
+
+        public void study() {
+            this.credit += 1;
+        }
+
+    }
+
+    class Teacher extends Person {
+        private double salary;
+
+        public Teacher(String name, String address, double salary) {
+            super(name, address);
+            this.salary = salary;
+        }
+
+
+        @Override
+        public String toString() {
+            return super.toString() + "\nSalary: " + salary;  // Adds salary information
+        }
+    }
+
+    public class Main {
+
+        public static void printDepartment(List<Person> people) {
+
+            System.out.println("Department Members:");
+
+            for (Person person : people) {
+                System.out.println(person);
+                System.out.println();
+            }
+        }
+
+        public static void main(String[] args) {
+
+            List<Person> people = new ArrayList<Person>();
+            people.add(new Teacher("Pekka Mikkola", "Korsontie Street 1 03100 Vantaa", 1200));
+            people.add(new Student("Olli", "Ida Albergintie Street 1 00400 Helsinki"));
+
+            printDepartment(people);
+        }
+    }*/
+
+//Task 2
+
+/*package org.example;
+
+enum Fill {
+    FILLED,
+    NOT_FILLED
+}
+
+
+class Shape {
+    private String color;
+    private Fill filled;
+
+    public Shape(String color, Fill filled) {
+        this.color = color;
+        this.filled = filled;
+    }
+
+
+    public String getColor() {
+        return color;
+    }
+
+    public Fill getFilled() {
+        return filled;
+    }
+
+    public void displayInfo() {
+        System.out.println("Color: " + color);
+        if (filled == Fill.FILLED) {
+            System.out.println("Filled");
+        }else{
+            System.out.println("Not filled");
+        }
+    }
+}
+
+class Rectangle extends Shape {
+    private double width;
+    private double height;
+
+    public Rectangle(String color, Fill filled, double width, double height) {
+        super(color, filled);
+        this.width = width;
+        this.height = height;
+    }
+
+
+    public double getArea() {
+        return width * height;
+    }
+
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Shape: Rectangle");
+        System.out.println("Width: " + width);
+        System.out.println("Height: " + height);
+        System.out.println("Area: " + getArea());
+    }
+}
+
+
+class Circle extends Shape {
+    private double radius;
+    private double PI = 3.141592653589793;
+
+    public Circle(String color, Fill filled, double radius) {
+        super(color, filled);
+        this.radius = radius;
+    }
+
+    public double getArea() {
+        return PI * radius * radius;
+    }
+
+    public double calculateCircumference(double radius) {
+        return 2 * PI * radius;
+    }
+
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Shape: Circle");
+        System.out.println("Radius: " + radius);
+        System.out.println("Area: " + getArea());
+        System.out.println("Circumference: " + calculateCircumference(radius));
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+
+        Rectangle rectangle = new Rectangle("Blue", Fill.FILLED, 4.0, 6.0);
+        rectangle.displayInfo();
+
+        System.out.println();
+
+        Circle circle = new Circle("Red", Fill.NOT_FILLED, 5.5);
+        circle.displayInfo();
+    }
+}*/
+
+
+//Task 3
+
+/*package org.example;
+import java.util.ArrayList;
+import java.util.List;
+
+class Person {
+    private String name;
+    private String address;
+    private int age;
+    private String country;
+
+    public Person(String name, String address, int age, String country) {
+        this.name = name;
+        this.address = address;
+        this.age = age;
+        this.country = country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    public int getAge() {
+        return this.age;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    @Override
+    public String toString() {
+        return name + "\n" + address;
+    }
+}
+class Student extends Person {
+    private int credit;
+
+    public Student(String name,String address,int age,String country) {
+        super(name,address,age,country);
+        this.credit = 0;
+    }
+
+
+    public int getCredit() {
+        return this.credit;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString(); // Uses Person's toString method
+    }
+
+    public void study() {
+        this.credit += 1;
+    }
+
+}
+
+class Teacher extends Person {
+    private double salary;
+
+    public Teacher(String name, String address, double salary,int age,String country) {
+        super(name, address, age, country);
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\nSalary: " + salary;  // Adds salary information
+    }
+}
+
+public class Main {
+    public static void printDepartment(List<Person> people) {
+        System.out.println("Department Members:");
+        for (Person person : people) {
+            System.out.println(person);
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        List<Person> people = new ArrayList<Person>();
+        people.add(new Teacher("Pekka Mikkola", "Korsontie Street 1 03100 Vantaa", 4500, 18, "Finland"));
+        people.add(new Student("Olli", "Ida Albergintie Street 1 00400 Helsinki", 21, "Finland"));
+
+        printDepartment(people);
+    }
+}*/
+
+//Task 4
+
+/*package org.example;
+import java.util.ArrayList;
+import java.util.List;
+
+class Person {
+    private String name;
+    private String address;
+    private int age;
+    private String country;
+
+
+    public Person(String name, String address, int age, String country) {
+        this.name = name;
+        this.address = address;
+        this.age = age;
+        this.country = country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    public int getAge() {
+        return this.age;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    @Override
+    public String toString() {
+        return name + "\n" + address;
+    }
+}
+class Student extends Person {
+    private int credit;
+    private int student_id;
+    private  List<Integer> grade;
+
+
+    public Student(String name,String address,int age,String country,int student_id) {
+        super(name,address,age,country);
+        this.credit = 0;
+        this.student_id = student_id;
+        this.grade = new ArrayList<>();
+    }
+
+    public void setStudent_id(int student_id) {
+        this.student_id = student_id;
+    }
+    public int getStudent_id() {
+        return this.student_id;
+    }
+
+    public int getCredit() {
+        return this.credit;
+    }
+    public void addGrade(int grade) {
+        if(grade >= 0 && grade <= 100) {
+            this.grade.add(grade);
+            System.out.println("Grade "+ grade +" has been added.");
+        }else {
+            System.out.println("Grade "+ grade +" has not been added.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString(); // Uses Person's toString method
+    }
+
+    public void study() {
+        this.credit += 1;
+    }
+
+
+}
+
+class Teacher extends Person {
+        private double salary;
+
+        public Teacher(String name, String address, double salary,int age,String country) {
+            super(name, address, age, country);
+            this.salary = salary;
+        }
+
+
+        @Override
+        public String toString() {
+            return super.toString() + "\nSalary: " + salary;
+        }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        Student olli = new Student("Olli", "Ida Albergintie Street 1 00400 Helsinki", 21, "Finland", 12345);
+
+        System.out.println(olli);
+
+        olli.addGrade(65);
+        olli.addGrade(110);
+        olli.addGrade(95);
+
+        System.out.println("\nUpdated student details:");
+        System.out.println(olli);
+    }
+}*/
 
 
 
