@@ -873,8 +873,240 @@ public class Main {
     }
 }*/
 
+//--------------------------------------------------------Lab 5 Task Solutions--------------------------------------------------------
+
+//Task 1
+/*
+package org.example;
+import java.util.ArrayList;
+import java.util.List;
+
+abstract class Vehicle {
+    private String modelName;
+    private int mileage;
+    private int health;
+
+    public Vehicle(String modelName) {
+        this.modelName = modelName;
+        this.mileage = 0;
+        this.health = 100;
+    }
+
+    public Vehicle(String modelName, int mileage, int health) {
+        this.modelName = modelName;
+        this.mileage = mileage;
+        this.health = health;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public int getMileage() { // Fixed getter method name
+        return mileage;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public abstract String service();
+
+    public abstract int expectedLifeSpan();
+
+    public boolean needsMaintenance() {
+        return health < 70;
+    }
+
+    public int calculateRemainingLifespan() {
+        int expectedLife = expectedLifeSpan();
+        if (health < 50) {
+            double healthFactor = health / 100.0;
+            return (int) ((expectedLife - mileage) * healthFactor);
+        }
+        return expectedLife - mileage;
+    }
+
+    public void simulateYear(){
+        if(mileage>=expectedLifeSpan()/2){
+            setHealth(this.health-5);
+        }
+    }
+
+    public void performMaintenance(Vehicle vehicle) {
+        if(vehicle instanceof Car){
+            Car car=(Car) vehicle;
+            car.repair();
+            car.drive(115);
+        }else if(vehicle instanceof Truck){
+            Truck truck=(Truck) vehicle;
+            truck.repair();
+            truck.haul(2700);
+        }else if(vehicle instanceof Motorcycle){
+            Motorcycle motorcycle=(Motorcycle) vehicle;
+            motorcycle.race(40);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Model: " + this.modelName +
+                "\nMileage: " + this.mileage +
+                "\nHealth: " + this.health;
+    }
+}
+
+interface Repairable {
+    public String repair();
+}
+
+class Car extends Vehicle implements Repairable {
+    public Car(String modelName) {
+        super(modelName);
+    }
+
+    public Car(String modelName, int mileage, int health) {
+        super(modelName, mileage, health);
+    }
+
+    @Override
+    public String repair() {
+        return "Engine tuned and oil changed for " + getModelName();
+    }
+
+    @Override
+    public String service() {
+        return "Service for " + getModelName() + ": Check engine, change oil, inspect brakes, and top off fluids. " +
+                "Current mileage: " + getMileage() + " miles, health: " + getHealth() + ".";
+    }
+
+    @Override
+    public int expectedLifeSpan() {
+        return 150000;
+    }
+
+    public void drive(int miles) {}
+}
 
 
+
+
+class Truck extends Vehicle implements Repairable {
+    private int remainingLifespan;
+
+    public Truck(String modelName) {
+        super(modelName);
+        this.remainingLifespan = expectedLifeSpan();
+    }
+
+    public Truck(String modelName, int mileage, int health) {
+        super(modelName, mileage, health);
+        this.remainingLifespan = expectedLifeSpan();
+    }
+
+    public int getRemainingLifespan() {
+        return remainingLifespan;
+    }
+
+    @Override
+    public String repair() {
+        return "Engine overhauled and tires replaced for " + getModelName();
+    }
+    @Override
+    public String service() {
+        return "Service for " + getModelName() + ": Check engine, replace oil, inspect brakes, and check tire pressure. " +
+                "Current mileage: " + getMileage() + " miles, health: " + getHealth() + "."; // General service procedure for trucks
+    }
+    @Override
+    public int expectedLifeSpan() {
+        return 300000;
+    }
+
+    public void haul(int loadWeight){
+        if(loadWeight > 5000){
+            setHealth(getHealth() - 10);
+        } else {
+            setHealth(getHealth() - 5);
+        }
+
+        if(getHealth()<30){
+            System.out.println("Warning! Health is low after hauling!");
+            remainingLifespan-=20000;
+            System.out.println("Adjusted remaining lifespan due to low health: " + remainingLifespan + " miles.");
+        }
+    }
+}
+
+
+class Motorcycle extends Vehicle {
+    public Motorcycle(String modelName) {
+        super(modelName);
+    }
+
+    public Motorcycle(String modelName, int mileage, int health) {
+        super(modelName, mileage, health);
+    }
+
+    @Override
+    public String service() {
+        return "Service for " + getModelName() + ": Lubricate chain, tune engine, and inspect tires. " +
+                "Current mileage: " + getMileage() + " miles, health: " + getHealth() + ".";
+    }
+
+    @Override
+    public int expectedLifeSpan(){
+        return 50000;
+    }
+
+    public void race(int raceMiles){
+        setMileage(getMileage() + raceMiles);
+        setHealth(getHealth() - 4);
+        if (getHealth() < 40) {
+            expectedLifeSpan();
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        List<Vehicle> vehicles = new ArrayList<>();
+
+        vehicles.add(new Car("Honda Civic", 30000, 80));
+        vehicles.add(new Truck("Ford F-150", 50000, 90));
+        vehicles.add(new Motorcycle("Yamaha R1", 10000, 75));
+
+        for (Vehicle vehicle : vehicles) {
+            System.out.println(vehicle.service());
+            vehicle.simulateYear();
+
+            if (vehicle instanceof Car) {
+                Car car = (Car) vehicle;
+                car.drive(150);
+                System.out.println(car);
+            } else if (vehicle instanceof Truck) {
+                Truck truck = (Truck) vehicle;
+                truck.haul(6000);
+                System.out.println(truck);
+            } else if (vehicle instanceof Motorcycle) {
+                Motorcycle motorcycle = (Motorcycle) vehicle;
+                motorcycle.race(200);
+                System.out.println(motorcycle);
+            }
+        }
+    }
+}
+*/
 
 
 
